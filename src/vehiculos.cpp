@@ -5,6 +5,8 @@
 #include "vehiculos.h"
 using namespace std;
 
+const char* RUTA_VEHICULOS = "data/vehiculos.dat";
+
 void agregarVehiculo() {
     Vehiculo v;
     cout << "Marca: ";
@@ -17,7 +19,7 @@ void agregarVehiculo() {
     cin.ignore(); cin.getline(v.placa, 10);
 
     // Validar que no se repita la placa
-    ifstream fin("vehiculos.dat", ios::binary);
+    ifstream fin(RUTA_VEHICULOS, ios::binary);
     Vehiculo temp;
     while (fin.read((char*)&temp, sizeof(Vehiculo))) {
         if (strcmp(temp.placa, v.placa) == 0) {
@@ -28,7 +30,7 @@ void agregarVehiculo() {
     }
     fin.close();
 
-    ofstream fout("vehiculos.dat", ios::binary | ios::app);
+    ofstream fout(RUTA_VEHICULOS, ios::binary | ios::app);
     fout.write((char*)&v, sizeof(Vehiculo));
     fout.close();
 
@@ -40,7 +42,7 @@ void buscarVehiculo() {
     cout << "Ingrese la placa del vehiculo: ";
     cin.ignore(); cin.getline(placaBuscada, 10);
 
-    ifstream fin("vehiculos.dat", ios::binary);
+    ifstream fin(RUTA_VEHICULOS, ios::binary);
     Vehiculo v;
     bool encontrado = false;
 
@@ -66,7 +68,7 @@ void editarVehiculo() {
     cout << "Ingrese la placa del vehiculo a editar: ";
     cin.ignore(); cin.getline(placaBuscada, 10);
 
-    fstream archivo("vehiculos.dat", ios::binary | ios::in | ios::out);
+    fstream archivo(RUTA_VEHICULOS, ios::binary | ios::in | ios::out);
     Vehiculo v;
     bool encontrado = false;
 
@@ -95,12 +97,12 @@ void editarVehiculo() {
 }
 
 void listarVehiculos() {
-    ifstream fin("vehiculos.dat", ios::binary);
+    ifstream fin(RUTA_VEHICULOS, ios::binary);
     Vehiculo v;
     cout << "\n--- Lista de Vehiculos ---\n";
     while (fin.read((char*)&v, sizeof(Vehiculo))) {
         cout << "Marca: " << v.marca << ", Modelo: " << v.modelo
-             << ", Año: " << v.anio << ", Placa: " << v.placa << "\n";
+             << ", Anio: " << v.anio << ", Placa: " << v.placa << "\n";
     }
     fin.close();
 }
